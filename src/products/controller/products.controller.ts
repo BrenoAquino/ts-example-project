@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import { ResponsePattern } from 'src/common/response/response_pattern';
 import { ProductDTO } from '../dto/product.dto';
 import { ProductsService } from '../services/products.service';
 
@@ -13,8 +14,12 @@ export class ProductsController {
     }
 
     @Post()
-    async create(@Body() product: ProductDTO): Promise<ProductDTO> {
-        return this.productsService.create(product);
+    async create(@Body() product: ProductDTO): Promise<ResponsePattern> {
+        const newProduct = await this.productsService.create(product);
+        return new ResponsePattern()
+            .setStatus(HttpStatus.CREATED)
+            .setHeaders({ 'Location': `/products/${newProduct.id}` })
+            .setBody(newProduct)
     }
 
     @Get(':id')
