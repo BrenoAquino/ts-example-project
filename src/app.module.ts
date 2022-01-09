@@ -3,7 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { ProductsModule } from './products/products.module';
 import { ConfigModule } from '@nestjs/config';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { DefaultExceptionsFilter } from './common/filters/default.filter';
+import { ValidationFilter } from './common/filters/validation.filter';
 
 @Module({
     imports: [
@@ -20,8 +22,15 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
         }),
         ProductsModule
     ],
-    controllers: [],
     providers: [
+        {
+            provide: APP_FILTER,
+            useClass: DefaultExceptionsFilter
+        },
+        {
+            provide: APP_FILTER,
+            useClass: ValidationFilter
+        },
         {
             provide: APP_INTERCEPTOR,
             useClass: ClassSerializerInterceptor
