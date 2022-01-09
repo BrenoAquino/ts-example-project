@@ -1,22 +1,23 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
-import { Response } from 'express';
-import { ERROR_DEFAULT } from 'src/config/errors_messages';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpStatus } from '@nestjs/common';
+import { ERROR_DEFAULT } from 'src/common/errors/errors_messages';
+import { ERROR_CODE } from '../errors/errors_code';
+import { ErrorDTO } from "../errors/error_dto";
 
 @Catch()
 export class DefaultExceptionsFilter implements ExceptionFilter {
     
     catch(exception: unknown, host: ArgumentsHost): void {
-        const ctx = host.switchToHttp();
-        const response = ctx.getResponse<Response>();
+        const context = host.switchToHttp();
+        const response = context.getResponse();
         const status = HttpStatus.INTERNAL_SERVER_ERROR;
+        const message = ERROR_DEFAULT.UNKNOWN;
 
-        response
+        return response
             .status(status)
-            .json({ 
-                statusCode: status,
-                message: ERROR_DEFAULT.UNKNOWN,
-            });
-
-        // FIXME: Use reply with http adpter
+            .json(new ErrorDTO(
+                status, 
+                ERROR_CODE.UNKNOWN,
+                message
+            ));
     }
 }

@@ -1,7 +1,7 @@
 import { ValidationError, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ERROR_DEFAULT } from './config/errors_messages';
+import { ERROR_DEFAULT } from './common/errors/errors_messages';
 import { ValidationException } from './common/exceptions/validation.exception';
 import { DefaultExceptionsFilter } from './common/filters/default.filter';
 import { ValidationFilter } from './common/filters/validation.filter';
@@ -17,10 +17,8 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe({ 
         exceptionFactory: (errors: ValidationError[]) => {
             const messages = errors.map((error) => {
-                return {
-                    error: `${error.property} has wrong value ${error.value}.`,
-                    message: error.constraints[0] || ERROR_DEFAULT.UNKNOWN,
-                }
+                const errorsMessages = Object.values(error.constraints);
+                return errorsMessages.length > 0 ? errorsMessages[0] : ERROR_DEFAULT.UNKNOWN;
             })
             return new ValidationException(messages);
         },

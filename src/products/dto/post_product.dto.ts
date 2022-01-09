@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
-import { ERROR_PRODUCT } from "src/config/errors_messages";
+import { ERROR_PRODUCT } from "src/common/errors/errors_messages";
 
 export class ProductDTO {
     
