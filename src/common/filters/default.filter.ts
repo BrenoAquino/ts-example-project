@@ -16,5 +16,7 @@ export class DefaultExceptionsFilter implements ExceptionFilter {
                 statusCode: status,
                 message: ERROR_DEFAULT.UNKNOWN,
             });
+
+        // FIXME: Use reply with http adpter
     }
 }
