@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { Product } from '../../entities/product.entity';
-import { PostProductDTO } from '../dto/post_product.dto';
+import { ProductDTO } from '../dto/post_product.dto';
 import { ProductsService } from '../services/products.service';
 
 @Controller('products')
@@ -9,12 +9,12 @@ export class ProductsController {
     constructor(private productsService: ProductsService) {}
 
     @Get() 
-    async all(): Promise<Product[]> {
+    async all(): Promise<ProductDTO[]> {
         return this.productsService.all();
     }
 
     @Post()
-    async create(@Body() product: PostProductDTO): Promise<Product> {
+    async create(@Body() product: ProductDTO): Promise<ProductDTO> {
         return this.productsService.create(product);
     }
 

@@ -2,7 +2,7 @@ import { Exclude } from "class-transformer";
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { ERROR_PRODUCT } from "src/config/errors_messages";
 
-export class PostProductDTO {
+export class ProductDTO {
     
     @Exclude({ toClassOnly: true })
     id: string;
