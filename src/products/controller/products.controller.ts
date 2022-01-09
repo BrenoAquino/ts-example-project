@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { Product } from '../../entities/product.entity';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ProductDTO } from '../dto/product.dto';
 import { ProductsService } from '../services/products.service';
 
@@ -18,14 +17,13 @@ export class ProductsController {
         return this.productsService.create(product);
     }
 
-    // * Only for reference
     @Get(':id')
-    async specific(@Param() params): Promise<Product> {
+    async specific(@Param() params): Promise<ProductDTO> {
         return this.productsService.specific(params.id);
     }
 
     @Delete(':id')
-    async delete(@Param() params): Promise<Product> {
+    async delete(@Param() params): Promise<ProductDTO> {
         return this.productsService.delete(params.id);
     }
 }

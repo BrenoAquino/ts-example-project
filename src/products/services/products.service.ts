@@ -16,18 +16,19 @@ export class ProductsService {
     }
 
     async create(product: ProductDTO): Promise<ProductDTO> {
-        var newProduct = new Product(product.ref, product.title, product.price);
+        const newProduct = new Product(product.ref, product.title, product.price);
         const createdProduct = await this.productsRepository.save(newProduct);
         product.id = createdProduct.id;
         return product;
     }
 
-    // * Only for reference
-    async specific(id: number): Promise<Product> {
-        return this.productsRepository.findOne(id);
+    async specific(id: number): Promise<ProductDTO> {
+        const product = await this.productsRepository.findOne(id);
+        const productDTO = new ProductDTO(product.id, product.title, product.ref, product.price);
+        return productDTO;
     }
     
-    async delete(id: number): Promise<Product> {
+    async delete(id: number): Promise<ProductDTO> {
         const product = await this.specific(id);
         this.productsRepository.delete(id);
         return product
