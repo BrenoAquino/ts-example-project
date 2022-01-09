@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { DefaultExceptionsFilter } from './common/filters/default.filter';
 import { ValidationFilter } from './common/filters/validation.filter';
+import { ResponseInterceptor } from './common/response/response.interceptor';
 
 @Module({
     imports: [
@@ -34,6 +35,10 @@ import { ValidationFilter } from './common/filters/validation.filter';
         {
             provide: APP_INTERCEPTOR,
             useClass: ClassSerializerInterceptor
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: ResponseInterceptor
         }
     ],
 })
