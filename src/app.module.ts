@@ -1,12 +1,13 @@
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { ProductsModule } from './products/products.module';
+import { ProductsModule } from './modules/products/products.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { DefaultExceptionsFilter } from './common/filters/default.filter';
 import { ValidationFilter } from './common/filters/validation.filter';
 import { ResponseInterceptor } from './common/response/response.interceptor';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
     imports: [
@@ -21,7 +22,8 @@ import { ResponseInterceptor } from './common/response/response.interceptor';
             synchronize: true,
             entities: [Product],
         }),
-        ProductsModule
+        ProductsModule,
+        AuthModule
     ],
     providers: [
         {
