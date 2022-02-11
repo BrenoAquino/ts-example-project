@@ -10,14 +10,12 @@ export class AuthController {
 
   @Post()
   async login(@Body() authLoginDto: AuthLoginDto) {
-    console.log("Hellow from post");
     return this.authService.login(authLoginDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
   async test() {
-    console.log("Hellow from get");
     return 'Success!';
   }
 }
