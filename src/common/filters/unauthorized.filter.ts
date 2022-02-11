@@ -1,6 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, UnauthorizedException } from "@nestjs/common";
 import { AbstractHttpAdapter, HttpAdapterHost } from "@nestjs/core";
-import { ValidationException } from "src/common/exceptions/validation.exception";
 import { ERROR_CODE } from "../errors/errors_code";
 import { ErrorDTO } from "../errors/error_dto";
 
