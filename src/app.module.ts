@@ -8,6 +8,9 @@ import { DefaultExceptionsFilter } from './common/filters/default.filter';
 import { ValidationFilter } from './common/filters/validation.filter';
 import { ResponseInterceptor } from './common/response/response.interceptor';
 import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { User } from './entities/user.entity';
+import { UnauthorizedFilter } from './common/filters/unauthorized.filter';
 
 @Module({
     imports: [
@@ -20,10 +23,11 @@ import { AuthModule } from './modules/auth/auth.module';
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
             synchronize: true,
-            entities: [Product],
+            entities: [Product, User],
         }),
+        UsersModule,
+        AuthModule,
         ProductsModule,
-        AuthModule
     ],
     providers: [
         {
@@ -33,6 +37,10 @@ import { AuthModule } from './modules/auth/auth.module';
         {
             provide: APP_FILTER,
             useClass: ValidationFilter
+        },
+        {
+            provide: APP_FILTER,
+            useClass: UnauthorizedFilter
         },
         {
             provide: APP_INTERCEPTOR,
